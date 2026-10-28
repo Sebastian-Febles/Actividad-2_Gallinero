@@ -17,13 +17,6 @@ Como no requiere clave, no hay secretos en el repositorio.
 
 ## Declaración de uso de IA
 > Completa esta sección con tu caso real antes de entregar.
-- **Herramientas usadas:** (ej. Claude, Copilot, Codespaces)
-- **Para qué las usé:** (ej. generar la estructura inicial, explicar errores, documentar)
-- **Lo que hice sin ayuda de IA:** (ej. ajustar las fórmulas de estimación, el registro de huevos, pruebas manuales)
-
-## Estructura
-```
-index.html   → estructura de la página
-style.css    → estilos
-app.js       → llamadas a la API, lógica del gallinero y registro
-```
+- **Herramientas usadas:** Claude
+- **Para qué las usé:** Generar el código y subir a Github.
+- **Lo que hice sin ayuda de IA:** Determinar el uso de la página web y el prompt utilizado para ello.
