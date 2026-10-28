@@ -1,272 +1,238 @@
 /* ==========================================================================
-   GALLINERO CLIMÁTICO — HOJA DE ESTILOS
-   ==========================================================================
-   ÍNDICE (busca el número con Ctrl+F para saltar a cada parte)
-     1. AJUSTES RÁPIDOS ....... colores, tipografías, tamaños (empieza aquí)
-     2. BASE .................. estilos generales de la página y los títulos
-     3. ENCABEZADO ............ título, descripción y el huevo con el número
-     4. ESTRUCTURA ............ contenedor principal y paneles (tarjetas grandes)
-     5. FORMULARIOS ........... campos de texto y botones
-     6. MENSAJES DE ESTADO .... "Consultando…" y errores
-     7. PRONÓSTICO ............ tarjetas de los 7 días
-     8. REGISTRO DE HUEVOS .... estadísticas, gráfica y lista
-     9. CELULAR ............... ajustes para pantallas pequeñas
+   GALLINERO CLIMÁTICO — ESTILOS
+   Dirección visual: granja contemporánea, natural y despejada.
+   Colores, espacios y componentes están agrupados para facilitar ajustes.
    ========================================================================== */
 
-
-/* ==========================================================================
-   1. AJUSTES RÁPIDOS
-   Cambia aquí los valores y se actualiza toda la página.
-   ========================================================================== */
+/* 1. PALETA Y BASE --------------------------------------------------------- */
 :root {
-  /* --- Colores --- */
-  --color-fondo:        #e9efdf;  /* fondo de toda la página */
-  --color-texto:        #23301f;  /* texto principal y bordes oscuros */
-  --color-texto-suave:  #5b6a55;  /* textos secundarios y notas */
-  --color-panel:        #fbfdf7;  /* fondo de los paneles */
-  --color-borde:        #cfd9c2;  /* líneas finas y bordes claros */
-  --color-acento:       #f2a81d;  /* amarillo yema: botones, barras, huevo */
-  --color-acento-hover: #ffbb3d;  /* amarillo del botón al pasar el mouse */
-  --color-cascara:      #fffdf6;  /* blanco del huevo */
-
-  /* --- Colores de estado (tarjetas del pronóstico y mensajes) --- */
-  --color-ok:      #3f7d3a;  /* buen clima (verde) */
-  --color-alerta:  #c98a0b;  /* calor (naranja) */
-  --color-peligro: #b5442f;  /* calor extremo y errores (rojo) */
-  --color-frio:    #3c7a8c;  /* frío y "cargando" (azul) */
-
-  /* --- Tipografías --- */
-  --fuente-titulos: "Bricolage Grotesque", system-ui, sans-serif;
-  --fuente-texto:   "Source Sans 3", system-ui, sans-serif;
-
-  /* --- Tamaños --- */
-  --ancho-maximo:      980px;  /* ancho máximo del contenido */
-  --radio-panel:       10px;   /* esquinas redondeadas de los paneles */
-  --radio-campo:       6px;    /* esquinas de campos y botones */
-  --ancho-tarjeta-dia: 125px;  /* ancho mínimo de cada tarjeta del pronóstico */
-  --alto-grafica:      130px;  /* altura de la gráfica de huevos */
+  color-scheme: light;
+  --cream: #f7f5ec;
+  --paper: #fffdf7;
+  --paper-warm: #f0eee2;
+  --ink: #26372b;
+  --muted: #738074;
+  --green: #426b48;
+  --green-dark: #2e5037;
+  --green-soft: #e6eee1;
+  --sage: #b7c7a7;
+  --yellow: #e5b94f;
+  --yellow-soft: #fbf0cf;
+  --clay: #b86e4e;
+  --clay-soft: #f7e8df;
+  --blue-soft: #e5edf0;
+  --line: #e4e2d5;
+  --shadow: 0 12px 34px rgba(45, 58, 42, .07);
+  --radius-lg: 24px;
+  --radius-md: 16px;
+  --radius-sm: 11px;
 }
 
-
-/* ==========================================================================
-   2. BASE
-   ========================================================================== */
 * { box-sizing: border-box; }
-
+html { scroll-behavior: smooth; }
 body {
   margin: 0;
-  background: var(--color-fondo);
-  color: var(--color-texto);
-  font: 400 1rem/1.55 var(--fuente-texto);
+  min-height: 100vh;
+  background: radial-gradient(ellipse at 8% 0%, rgba(183, 199, 167, .22), transparent 34rem), var(--cream);
+  color: var(--ink);
+  font-family: "Source Sans 3", system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+  font-size: 16px;
+  line-height: 1.55;
 }
+button, input { font: inherit; }
+button, input, .panel, .dia, .stats > div {
+  transition: border-color .18s ease, box-shadow .18s ease, background-color .18s ease, transform .18s ease;
+}
+::selection { background: #d8e4ce; color: var(--green-dark); }
 
-/* Todos los títulos y números grandes usan la fuente de títulos */
-h1, h2, .huevo span, .estadisticas strong { font-family: var(--fuente-titulos); }
-
-h1 { font-size: clamp(1.8rem, 4vw, 2.6rem); margin: 0 0 .4rem; line-height: 1.1; }
-h2 { font-size: 1.3rem; margin: 0 0 1rem; }
-
-.texto-suave { color: var(--color-texto-suave); }
-.nota        { font-size: .85rem; margin: 1rem 0 0; }
-
-/* Contorno visible al navegar con el teclado (accesibilidad) */
-:focus-visible { outline: 3px solid var(--color-frio); outline-offset: 2px; }
-
-
-/* ==========================================================================
-   3. ENCABEZADO  (<header class="encabezado">)
-   ========================================================================== */
-.encabezado {
-  display: flex;
-  gap: 2rem;
+/* 2. ENCABEZADO ------------------------------------------------------------ */
+.top {
+  position: relative;
+  display: grid;
+  grid-template-columns: minmax(150px, 210px) minmax(0, 1fr);
   align-items: center;
-  max-width: var(--ancho-maximo);
+  gap: clamp(24px, 5vw, 64px);
+  max-width: 1180px;
   margin: 0 auto;
-  padding: 2rem 1.2rem 1rem;
+  padding: 52px 28px 38px;
 }
-
-.introduccion p {
-  max-width: 56ch;
-  margin: 0;
-  color: var(--color-texto-suave);
+.top::after {
+  content: "";
+  position: absolute;
+  left: 28px;
+  right: 28px;
+  bottom: 0;
+  height: 1px;
+  background: var(--line);
 }
-
-/* --- El huevo con el número de huevos estimados hoy --- */
-.huevo {
-  flex: none;
-  width: 150px;
-  height: 190px;
-  background: var(--color-cascara);
-  border: 3px solid var(--color-texto);
-  border-radius: 50% 50% 50% 50% / 62% 62% 38% 38%;      /* forma de huevo */
-  box-shadow: inset 0 -18px 0 var(--color-acento);       /* la "yema" abajo */
+.egg {
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
+  min-height: 184px;
+  padding: 26px 18px;
+  border: 1px solid rgba(255,255,255,.75);
+  border-radius: 48% 48% 44% 44% / 43% 43% 56% 56%;
+  background: linear-gradient(145deg, #fffdf3 5%, #f4e6b9 100%);
+  box-shadow: 0 16px 34px rgba(133, 107, 44, .12), inset 0 2px 0 rgba(255,255,255,.8);
+  transform: rotate(-3deg);
+  text-align: center;
 }
-.huevo span  { font-size: 3rem; font-weight: 700; line-height: 1; }   /* el número */
-.huevo small { font-size: .75rem; text-align: center; padding: 0 .8rem;
-               color: var(--color-texto-suave); margin-bottom: .9rem; } /* el texto pequeño */
-
-
-/* ==========================================================================
-   4. ESTRUCTURA  (<main> y cada <section class="panel">)
-   ========================================================================== */
-main {
-  max-width: var(--ancho-maximo);
-  margin: 0 auto;
-  padding: 0 1.2rem 3rem;
-  display: grid;
-  gap: 1.2rem;              /* espacio entre paneles */
+.egg #eggToday {
+  color: var(--green-dark);
+  font-family: "Bricolage Grotesque", sans-serif;
+  font-size: clamp(3.1rem, 6vw, 4.7rem);
+  font-weight: 700;
+  line-height: 1;
+  letter-spacing: -.06em;
 }
+.egg small { max-width: 115px; margin-top: 10px; color: #6e7157; font-size: .8rem; line-height: 1.25; }
+.intro h1 {
+  margin: 0 0 12px;
+  color: var(--green-dark);
+  font-family: "Bricolage Grotesque", sans-serif;
+  font-size: clamp(2.3rem, 5vw, 4rem);
+  font-weight: 700;
+  letter-spacing: -.055em;
+  line-height: 1.02;
+}
+.intro p { max-width: 660px; margin: 0; color: #667266; font-size: 1.08rem; }
 
+/* 3. CONTENIDO Y PANELES --------------------------------------------------- */
+main { display: grid; gap: 24px; max-width: 1180px; margin: 0 auto; padding: 30px 28px 64px; }
 .panel {
-  background: var(--color-panel);
-  border: 1px solid var(--color-borde);
-  border-radius: var(--radio-panel);
-  padding: 1.3rem;
+  min-width: 0;
+  padding: clamp(22px, 3vw, 32px);
+  border: 1px solid rgba(226, 225, 211, .9);
+  border-radius: var(--radius-lg);
+  background: rgba(255, 253, 247, .9);
+  box-shadow: var(--shadow);
 }
-
-
-/* ==========================================================================
-   5. FORMULARIOS  (campos y botones)
-   ========================================================================== */
-/* Fila que acomoda los campos y el botón en una línea */
-.fila { display: flex; flex-wrap: wrap; gap: 1rem; align-items: flex-end; }
-
-label {
+.panel h2 {
   display: flex;
-  flex-direction: column;
-  gap: .3rem;
-  font-weight: 600;
-  font-size: .9rem;
-}
-
-input {
-  font: inherit;
-  padding: .55rem .7rem;
-  min-width: 11rem;
-  border: 1px solid var(--color-borde);
-  border-radius: var(--radio-campo);
-  background: #fff;
-}
-
-/* --- Botón principal (amarillo) --- */
-button {
-  font: 600 1rem var(--fuente-texto);
-  padding: .6rem 1.1rem;
-  border: 2px solid var(--color-texto);
-  border-radius: var(--radio-campo);
-  background: var(--color-acento);
-  color: var(--color-texto);
-  cursor: pointer;
-}
-button:hover { background: var(--color-acento-hover); }
-
-/* --- Botón con apariencia de enlace (ej. "Eliminar") --- */
-button.enlace {
-  border: none;
-  background: none;
-  padding: 0;
-  color: var(--color-peligro);
-  text-decoration: underline;
-  font-size: .85rem;
-}
-
-
-/* ==========================================================================
-   6. MENSAJES DE ESTADO  (<div id="status" class="estado">)
-   La clase "cargando" o "error" la agrega app.js según el caso.
-   ========================================================================== */
-.estado          { margin-top: .6rem; font-weight: 600; }
-.estado.cargando { color: var(--color-frio); }
-.estado.error    { color: var(--color-peligro); background: #f8e4df;
-                   padding: .6rem .8rem; border-radius: var(--radio-campo); }
-
-
-/* ==========================================================================
-   7. PRONÓSTICO  (tarjetas de los 7 días)
-   ========================================================================== */
-/* Cuadrícula: se acomoda sola según el ancho de la pantalla */
-.dias {
-  display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(var(--ancho-tarjeta-dia), 1fr));
-  gap: .7rem;
-}
-
-/* --- Tarjeta de un día. La franja de color de arriba indica el clima --- */
-.dia {
-  background: #fff;
-  border: 1px solid var(--color-borde);
-  border-top: 5px solid var(--color-ok);      /* verde = buen clima */
-  border-radius: 8px;
-  padding: .7rem;
-}
-.dia.alerta  { border-top-color: var(--color-alerta); }    /* calor */
-.dia.peligro { border-top-color: var(--color-peligro); }   /* calor extremo */
-.dia.frio    { border-top-color: var(--color-frio); }      /* frío */
-
-/* --- Textos dentro de la tarjeta --- */
-.dia b          { display: block; text-transform: capitalize; }   /* nombre del día */
-.dia .temp      { font-size: 1.15rem; font-weight: 600; }         /* 33° / 24° */
-.dia .nivel     { font-size: .8rem; font-weight: 600; }           /* "Calor", "Buen clima" */
-.dia .huevos    { margin-top: .4rem; font-weight: 600; }          /* ≈ 4.2 huevos */
-.dia p          { margin: .4rem 0 0; font-size: .8rem; line-height: 1.35;
-                  color: var(--color-texto-suave); }              /* consejo */
-
-
-/* ==========================================================================
-   8. REGISTRO DE HUEVOS
-   ========================================================================== */
-/* --- Estadísticas (total y promedio) --- */
-.estadisticas        { display: flex; gap: 2.5rem; margin: 1.2rem 0; }
-.estadisticas strong { display: block; font-size: 2rem; line-height: 1; }
-.estadisticas span   { font-size: .85rem; color: var(--color-texto-suave); }
-
-/* --- Gráfica de barras de los últimos 7 días --- */
-.grafica {
-  display: flex;
-  align-items: flex-end;
-  gap: .5rem;
-  height: var(--alto-grafica);
-  border-bottom: 2px solid var(--color-texto);
-  margin-bottom: 1rem;
-}
-.barra {                      /* una columna: número arriba, barra y día abajo */
-  flex: 1;
-  height: 100%;
-  display: flex;
-  flex-direction: column;
-  justify-content: flex-end;
   align-items: center;
-  font-size: .75rem;
+  gap: 12px;
+  margin: 0 0 22px;
+  color: var(--green-dark);
+  font-family: "Bricolage Grotesque", sans-serif;
+  font-size: clamp(1.35rem, 2.3vw, 1.8rem);
+  letter-spacing: -.035em;
 }
-.barra i {                    /* la barra amarilla; su altura la pone app.js */
-  display: block;
-  width: 100%;
-  min-height: 2px;
-  background: var(--color-acento);
-  border: 2px solid var(--color-texto);
-  border-bottom: none;
-  border-radius: 4px 4px 0 0;
+.panel h2::before { content: ""; width: 8px; height: 26px; flex: 0 0 auto; border-radius: 8px; background: var(--sage); }
+
+/* 4. FORMULARIOS ----------------------------------------------------------- */
+.row { display: grid; grid-template-columns: minmax(180px, 1.3fr) minmax(150px, .7fr) auto; align-items: end; gap: 14px; }
+label { display: grid; gap: 7px; color: #4f5d50; font-size: .92rem; font-weight: 600; }
+input {
+  width: 100%; min-width: 0; min-height: 48px; padding: 10px 13px;
+  border: 1px solid #d9ddcf; border-radius: var(--radius-sm);
+  outline: none; background: #fffefb; color: var(--ink);
+}
+input::placeholder { color: #a0a99d; }
+input:hover { border-color: #a8b99f; }
+input:focus { border-color: var(--green); box-shadow: 0 0 0 4px rgba(66, 107, 72, .12); }
+button {
+  min-height: 48px; padding: 11px 19px; border: 1px solid var(--green);
+  border-radius: var(--radius-sm); background: var(--green); color: white;
+  font-weight: 700; cursor: pointer; box-shadow: 0 5px 12px rgba(46, 80, 55, .12);
+}
+button:hover { border-color: var(--green-dark); background: var(--green-dark); box-shadow: 0 8px 18px rgba(46, 80, 55, .18); transform: translateY(-1px); }
+button:active { transform: translateY(0); }
+button:focus-visible, .enlace:focus-visible { outline: 3px solid rgba(229, 185, 79, .8); outline-offset: 3px; }
+.muted, .texto-suave { color: var(--muted); }
+#place { margin: 15px 0 0; font-size: .9rem; font-weight: 600; }
+.small { margin: 22px 0 0; font-size: .88rem; }
+#status:empty { display: none; }
+.estado, .status { margin-top: 14px; padding: 11px 14px; border-radius: var(--radius-sm); font-size: .93rem; }
+.estado.cargando, .status.cargando { background: var(--yellow-soft); color: #785d20; }
+.estado.error, .status.error { border: 1px solid #efd2c5; background: var(--clay-soft); color: #87452e; }
+
+/* 5. PRONÓSTICO ------------------------------------------------------------ */
+.days { display: grid; grid-template-columns: repeat(7, minmax(0, 1fr)); gap: 12px; }
+.dia {
+  position: relative; display: flex; min-width: 0; flex-direction: column; gap: 10px; overflow: hidden;
+  padding: 17px 13px 16px; border: 1px solid var(--line); border-top: 4px solid var(--sage);
+  border-radius: var(--radius-md); background: #fffef9;
+}
+.dia::after {
+  content: ""; position: absolute; top: -26px; right: -25px; width: 65px; height: 65px;
+  border-radius: 50%; background: rgba(183, 199, 167, .14); pointer-events: none;
+}
+.dia:hover { border-color: #c7d3bd; box-shadow: 0 9px 22px rgba(45, 58, 42, .08); transform: translateY(-2px); }
+.dia > b { color: #5c6c5d; font-size: .84rem; text-transform: capitalize; }
+.dia .temp { color: var(--ink); font-family: "Bricolage Grotesque", sans-serif; font-size: clamp(1.15rem, 1.7vw, 1.5rem); font-weight: 700; letter-spacing: -.045em; white-space: nowrap; }
+.dia .nivel { width: fit-content; padding: 4px 8px; border-radius: 99px; background: var(--green-soft); color: var(--green-dark); font-size: .73rem; font-weight: 700; }
+.dia > div:not(.temp):not(.nivel) { color: #6d786a; font-size: .79rem; }
+.dia .huevos { color: var(--green-dark); font-family: "Bricolage Grotesque", sans-serif; font-size: 1.1rem; font-weight: 700; }
+.dia p { margin: 2px 0 0; color: #70796e; font-size: .78rem; line-height: 1.45; }
+.dia.hoy { border-color: #d6c17f; border-top-color: var(--yellow); background: linear-gradient(180deg, #fffaf0 0%, #fffef9 65%); box-shadow: 0 7px 18px rgba(177, 139, 48, .09); }
+.dia.hoy > b { color: #947026; }
+.dia.peligro { border-top-color: #c86b4d; }
+.dia.peligro .nivel { background: #f8e2d8; color: #984b31; }
+.dia.alerta { border-top-color: #e2b44a; }
+.dia.alerta .nivel { background: #fbf0cf; color: #88651b; }
+.dia.frio { border-top-color: #88aeba; }
+.dia.frio .nivel { background: var(--blue-soft); color: #416a78; }
+
+/* 6. REGISTRO, ESTADÍSTICAS Y GRÁFICA ------------------------------------- */
+.stats { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 14px; margin: 22px 0; }
+.stats > div { display: flex; flex-direction: column; gap: 4px; padding: 20px 22px; border: 1px solid #dfe7d8; border-radius: var(--radius-md); background: #edf2e8; }
+.stats > div:nth-child(2) { border-color: #eee2bf; background: #fbf4df; }
+.stats strong { color: var(--green-dark); font-family: "Bricolage Grotesque", sans-serif; font-size: clamp(1.8rem, 4vw, 2.6rem); letter-spacing: -.055em; line-height: 1.1; }
+.stats span { color: #6c7768; font-size: .9rem; }
+.chart {
+  display: grid; grid-template-columns: repeat(7, minmax(0, 1fr)); align-items: end; gap: 12px; min-height: 180px;
+  padding: 20px 14px 12px; border: 1px solid var(--line); border-radius: var(--radius-md);
+  background: repeating-linear-gradient(to top, transparent 0, transparent 43px, rgba(90, 111, 83, .08) 44px, transparent 45px), #fffef9;
+}
+.barra { display: grid; grid-template-rows: 22px minmax(80px, 1fr) 20px; justify-items: center; align-items: end; gap: 5px; height: 145px; min-width: 0; }
+.barra > span:first-child { align-self: center; color: #6b7667; font-size: .78rem; font-weight: 600; }
+.barra i { display: block; align-self: end; width: min(100%, 32px); min-height: 3px; border-radius: 8px 8px 3px 3px; background: linear-gradient(180deg, #a9bf91, #52784d); box-shadow: inset 0 1px 0 rgba(255,255,255,.4); }
+.barra > span:last-child { align-self: end; color: #778274; font-size: .75rem; font-weight: 700; }
+.loglist { display: grid; gap: 0; margin: 20px 0 0; padding: 0; list-style: none; }
+.loglist li { display: flex; align-items: center; justify-content: space-between; gap: 16px; padding: 14px 2px; border-bottom: 1px solid #eeede4; color: #4c594d; }
+.loglist li:last-child { border-bottom: 0; }
+.enlace { min-height: auto; padding: 5px 9px; border: 1px solid transparent; border-radius: 8px; background: transparent; box-shadow: none; color: #a45a40; font-size: .86rem; }
+.enlace:hover { border-color: #f0d8cc; background: #fbede6; box-shadow: none; color: #8d452e; transform: none; }
+
+/* 7. RESPONSIVE ------------------------------------------------------------ */
+@media (max-width: 1050px) {
+  .days { grid-template-columns: repeat(4, minmax(0, 1fr)); }
+  .dia .temp { font-size: 1.45rem; }
+}
+@media (max-width: 720px) {
+  .top { grid-template-columns: 115px minmax(0, 1fr); gap: 22px; padding: 34px 20px 28px; }
+  .top::after { left: 20px; right: 20px; }
+  .egg { min-height: 125px; padding: 18px 10px; }
+  .egg #eggToday { font-size: 3rem; }
+  .egg small { max-width: 90px; font-size: .7rem; }
+  .intro h1 { font-size: clamp(1.8rem, 6vw, 2.7rem); }
+  .intro p { font-size: .96rem; }
+  main { gap: 18px; padding: 22px 16px 42px; }
+  .panel { padding: 22px 18px; border-radius: 20px; }
+  .row { grid-template-columns: 1fr 1fr; }
+  .row button { grid-column: 1 / -1; }
+  .days { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .dia { padding: 15px 13px; }
+  .dia .temp { font-size: 1.5rem; }
+  .dia p { font-size: .82rem; }
+  .chart { gap: 7px; padding-right: 8px; padding-left: 8px; }
+}
+@media (max-width: 420px) {
+  .top { grid-template-columns: 1fr; text-align: center; }
+  .egg { width: 140px; min-height: 130px; margin: 0 auto; }
+  .intro p { margin: 0 auto; }
+  .row, .stats { grid-template-columns: 1fr; }
+  .row button { grid-column: auto; }
+  .days { grid-template-columns: 1fr 1fr; gap: 9px; }
+  .dia { gap: 8px; }
+  .dia .temp { font-size: 1.3rem; }
+  .loglist li { align-items: flex-start; }
 }
 
-/* --- Lista de registros guardados --- */
-.lista-registros    { list-style: none; margin: 0; padding: 0; }
-.lista-registros li { display: flex; justify-content: space-between; align-items: center;
-                      padding: .45rem 0; border-bottom: 1px solid var(--color-borde); }
-
-
-/* ==========================================================================
-   9. CELULAR Y ACCESIBILIDAD
-   ========================================================================== */
-@media (max-width: 640px) {
-  .encabezado   { flex-direction: column; text-align: center; }
-  .estadisticas { gap: 1.5rem; }
-}
-
-/* Respeta a quienes desactivan las animaciones en su sistema */
+/* 8. REDUCCIÓN DE MOVIMIENTO ---------------------------------------------- */
 @media (prefers-reduced-motion: reduce) {
-  * { transition: none !important; }
+  html { scroll-behavior: auto; }
+  *, *::before, *::after { transition-duration: .01ms !important; animation-duration: .01ms !important; animation-iteration-count: 1 !important; }
 }
