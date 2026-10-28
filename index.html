@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Gallinero Climático</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:wght@500;700&family=Source+Sans+3:wght@400;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <header class="top">
+    <div class="egg" aria-live="polite">
+      <span id="eggToday">–</span>
+      <small>huevos estimados hoy</small>
+    </div>
+    <div class="intro">
+      <h1>Gallinero Climático</h1>
+      <p>El clima y las horas de luz deciden cuántos huevos ponen tus gallinas. Consulta el pronóstico y lleva el registro de tu producción.</p>
+    </div>
+  </header>
+
+  <main>
+    <section class="panel" aria-labelledby="t-config">
+      <h2 id="t-config">El gallinero</h2>
+      <form id="configForm" class="row">
+        <label>Ciudad
+          <input id="city" type="text" placeholder="Ej. Mérida" required>
+        </label>
+        <label>Número de gallinas
+          <input id="hens" type="number" min="1" max="500" value="6" required>
+        </label>
+        <button type="submit">Consultar pronóstico</button>
+      </form>
+      <p id="place" class="muted"></p>
+      <div id="status" role="status" class="status"></div>
+    </section>
+
+    <section class="panel" aria-labelledby="t-forecast">
+      <h2 id="t-forecast">Próximos 7 días</h2>
+      <div id="forecast" class="days"></div>
+      <p class="muted small">Estimación orientativa: 0.8 huevos por gallina al día, ajustada por calor y horas de luz (las gallinas ponen mejor con 14 h de luz o más). Datos: Open-Meteo.</p>
+    </section>
+
+    <section class="panel" aria-labelledby="t-log">
+      <h2 id="t-log">Registro de huevos</h2>
+      <form id="logForm" class="row">
+        <label>Fecha
+          <input id="logDate" type="date" required>
+        </label>
+        <label>Huevos recogidos
+          <input id="logCount" type="number" min="0" max="999" required>
+        </label>
+        <button type="submit">Guardar registro</button>
+      </form>
+      <div class="stats">
+        <div><strong id="statTotal">0</strong><span>huevos en total</span></div>
+        <div><strong id="statAvg">0</strong><span>promedio diario (7 días)</span></div>
+      </div>
+      <div id="chart" class="chart" aria-label="Huevos de los últimos 7 días"></div>
+      <ul id="logList" class="loglist"></ul>
+    </section>
+  </main>
+
+  <script src="app.js"></script>
+</body>
+</html>
