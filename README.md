@@ -16,7 +16,6 @@ Como no requiere clave, no hay secretos en el repositorio.
 - Manejo de errores: sin conexión, tiempo de espera agotado, límite de peticiones (429), ciudad no encontrada y respuesta vacía.
 
 ## Declaración de uso de IA
-> Completa esta sección con tu caso real antes de entregar.
 - **Herramientas usadas:** Claude
 - **Para qué las usé:** Generar el código y subir a Github.
 - **Lo que hice sin ayuda de IA:** Determinar el uso de la página web y el prompt utilizado para ello.
